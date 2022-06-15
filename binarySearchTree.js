@@ -24,7 +24,7 @@ class BinarySearchTree {
 
             // while 
             while (true) {
-                if (value === current.value) return undefined;
+                // if (value === current.value) return undefined;
                 // if the inserted value is less than the current tracked value
                 if (value < current.value) {
                     // if the left/lesser value is null, insert the new node there
@@ -41,7 +41,7 @@ class BinarySearchTree {
                     if (current.right === null) {
                         current.right = newNode;
                         return this;
-                        // tracked value is the right/greater than the current tracked value
+                    } else {
                         current = current.right;
                     }
                 }
@@ -66,7 +66,36 @@ class BinarySearchTree {
         }
         if (!found) return undefined;
         return current;
-    }   
+    }
+
+    BFS () {
+        let node = this.root;
+        let data = [];
+        let queue = [];
+
+        queue.push(node);
+        while (queue.length) {
+            node = queue.shift();
+            data.push(node.value);
+            if (node.left) queue.push(node.left);
+            if (node.right) queue.push(node.right);
+        }
+
+        return data;
+    }
+
+    DFSPreOrder () {
+        let data = [];
+        let current = this.root;
+
+        const traverse = (node) => {
+            data.push(node.value);
+            if (node.left) traverse(node.left);
+            if (node.right) traverse(node.right);
+        }
+        traverse(current);
+        return data;
+    }
 }
 
 
@@ -74,5 +103,8 @@ let tree = new BinarySearchTree();
 tree.insert(12);
 tree.insert(1);
 tree.insert(4);
+tree.insert(21);
+tree.insert(420);
+tree.insert(69);
 
-console.log(tree);
+console.log(tree.DFSPreOrder());
