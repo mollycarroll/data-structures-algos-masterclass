@@ -1,6 +1,11 @@
+// add the new element to the end of the array
+// compare element with parent -- 
+// element variable, element's index variable, parent index variable
+// if the element is larger than parent, swap them
+
 class MaxBinaryHeap {
     constructor () {
-        this.values = [41, 39, 33, 18, 27, 12];
+        this.values = [41,39,33,18,27,12];
     }
 
     insert (element) {
@@ -9,22 +14,21 @@ class MaxBinaryHeap {
     }
 
     bubbleUp () {
-        let index = this.values.length-1;
-        const element = this.values[index];
+        const element = this.values[this.values.length-1]; // 55
+        let elementIdx = this.values.length-1; // 6
+        let parentIdx = Math.floor((elementIdx-1)/2) // 33
+        console.log(elementIdx, parentIdx);
 
-        while (index > 0) {
-            let parentIdx = Math.floor((index - 1)/2);
-            let parent = this.values[parentIdx];
+        while (element > this.values[parentIdx]) {
+            
+            [this.values[elementIdx], this.values[parentIdx]] = [this.values[parentIdx], this.values[elementIdx]];
 
-            if (element <= parent) break;
-
-            this.values[parentIdx] = element;
-            this.values[index] = parent;
-            index = parentIdx;
+            elementIdx = parentIdx;
         }
+        console.log(elementIdx, parentIdx);
+        console.log(this.values);
     }
 }
 
 let heap = new MaxBinaryHeap();
-// this doesn't work and I don't know why; revisit later
-// if anyone sees this and wants to explain it to me get in touch
+console.log(heap.insert(55));
