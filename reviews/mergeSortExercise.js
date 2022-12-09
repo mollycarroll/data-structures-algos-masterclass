@@ -14,8 +14,6 @@ Once you have smaller sorted arrays, merge those arrays with other sorted pairs 
 Once the array has been merged back together, return the merged (and sorted!) array
 */
 
-
-
 const merge = (arr1, arr2) => {
     let merged = [];
     let pointer1 = 0;
@@ -25,22 +23,38 @@ const merge = (arr1, arr2) => {
         if (arr1[pointer1] < arr2[pointer2]) {
             merged.push(arr1[pointer1]);
             pointer1++;
-        } else if (arr2[pointer2] < arr1[pointer1]) {
+        } else {
             merged.push(arr2[pointer2]);
             pointer2++;
         }
     }
 
-    if (pointer1 == arr1.length-1) {
+    while (pointer1 < arr1.length) {
         merged.push(arr1[pointer1]);
-    } else if (pointer2 == arr2.length-1) {
+        pointer1++;
+    }
+
+    while (pointer2 < arr2.length) {
         merged.push(arr2[pointer2]);
+        pointer2++;
     }
 
     return merged;
 }
 
+const mergeSort = (arr) => {
+    if (arr.length < 2) {
+        return arr;
+    }
 
-const mergeSort = () => {
+    let split = Math.floor(arr.length/2);
+    let first = mergeSort(arr.slice(0,split));
+    let second = mergeSort(arr.slice(split));
+
+    if (first && second) {
+        if (first.length + second.length == arr.length) {
+            return merge(first,second);
+        }
+    }
 
 }
