@@ -14,18 +14,99 @@ Once you have smaller sorted arrays, merge those arrays with other sorted pairs 
 Once the array has been merged back together, return the merged (and sorted!) array
 */
 
-const merge = (arr1, arr2) => {
+// provided test data and comparator functions
+
+var kitties = ["LilBub", "Garfield", "Heathcliff", "Blue", "Grumpy"];
+ 
+var moarKittyData = [{
+  name: "LilBub",
+  age: 7
+}, {
+  name: "Garfield",
+  age: 40
+}, {
+  name: "Heathcliff",
+  age: 45
+}, {
+  name: "Blue",
+  age: 1
+}, {
+  name: "Grumpy",
+  age: 6
+}];
+
+var arr1 = [1,3,4,5];
+var arr2 = [2,4,6,8];
+
+var arr3 = [-2,-1,0,4,5,6];
+var arr4 = [-3,-2,-1,2,3,5,7,8];
+
+
+var arr5 = [3,4,5]
+var arr6 = [1,2]
+
+var names = ["Bob", "Ethel", "Christine"]
+var otherNames = ["M", "Colt", "Allison", "SuperLongNameOMG"]
+
+function strComp(a, b) {
+    if (a < b) { return -1;}
+    else if (a > b) { return 1;}
+    return 0;
+  }
+
+function oldestToYoungest(a, b) {
+    console.log('a = ' + a.age);
+    console.log('b = ' + b.age);
+    return b.age - a.age;
+}
+ 
+function stringLengthComparator(str1, str2) {
+  return str1.length - str2.length;
+}
+
+
+// my merge sort algorithm
+
+const merge = (arr1, arr2, comparator) => {
     let merged = [];
     let pointer1 = 0;
     let pointer2 = 0;
 
-    while (pointer1 < arr1.length && pointer2 < arr2.length) {
-        if (arr1[pointer1] < arr2[pointer2]) {
-            merged.push(arr1[pointer1]);
-            pointer1++;
-        } else {
+    if (comparator) {
+        while (merged.length < (arr1.length + arr2.length)) {
+
+            if (arr1[pointer1] && arr2[pointer2]) {
+
+                let difference = comparator(arr1[pointer1], arr2[pointer2]);
+
+                if (difference < 0) {
+                    merged.push(arr1[pointer1]);
+                    pointer1++;
+
+                } else {
+                    merged.push(arr2[pointer2]);
+                    pointer2++;
+                }
+
+        } else if (!arr1[pointer1] && arr2[pointer2]) {
             merged.push(arr2[pointer2]);
             pointer2++;
+
+        } else if (arr1[pointer1] && !arr2[pointer2]) {
+            merged.push(arr1[pointer1]);
+            pointer1++;
+        }
+    }
+
+    } else {
+        while (pointer1 < arr1.length && pointer2 < arr2.length) {
+            if (arr1[pointer1] < arr2[pointer2]) {
+                merged.push(arr1[pointer1]);
+                pointer1++;
+            } else {
+                merged.push(arr2[pointer2]);
+                pointer2++;
+            }
         }
     }
 
@@ -42,19 +123,22 @@ const merge = (arr1, arr2) => {
     return merged;
 }
 
-const mergeSort = (arr) => {
-    if (arr.length < 2) {
-        return arr;
-    }
+// TODO: revise this function
 
-    let split = Math.floor(arr.length/2);
-    let first = mergeSort(arr.slice(0,split));
-    let second = mergeSort(arr.slice(split));
+// const mergeSort = (arr) => {
+//     console.log('arr from mergeSort call: ' + arr);
+//     if (arr.length < 2) {
+//         return arr;
+//     }
 
-    if (first && second) {
-        if (first.length + second.length == arr.length) {
-            return merge(first,second);
-        }
-    }
+//     let split = Math.floor(arr.length/2);
+//     let first = mergeSort(arr.slice(0,split));
+//     let second = mergeSort(arr.slice(split));
 
-}
+//     if (first && second) {
+//         if (first.length + second.length == arr.length) {
+//             return merge(first, second);
+//         }
+//     }
+
+// }
