@@ -1,4 +1,5 @@
 /*
+Coding Exercise 50: Pivot Helper
 Coding Exercise 51: Quick Sort
 
 The next sorting algorithm we'll consider is Quick Sort. Unfortunately, quicksort is not the most intuitive of algorithms and has a wide range of implementations. 
@@ -20,11 +21,53 @@ right of it. It's also helpful if this helper returns the index of where the piv
 The default comparator you provide should assume that the two parameters are numbers and that we are sorting the values from smallest to largest.
 */
 
-const pivot = (arr, comparator, start=0, end=arr.length-1) => {
-    // code here
+// course provided test data and strLength function
+var arr = [4, 2, 5, 3, 6];
+var arr1 = [5, 4, 9, 10, 2, 20, 8, 7, 3];
+var arr2 = [8, 4, 2, 5, 0, 10, 11, 12, 13, 16];
+var arr3 = ["LilBub", "Garfield", "Heathcliff", "Blue", "Grumpy"];
+
+function strLength(a, b) {
+    return a.length - b.length
 }
 
-
-const quickSort = (arr, comparator) => {
-    // code here
+const compareNums = (num1, num2) => {
+    if (num1 > num2) {
+        return 1
+    } else if (num1 < num2) {
+        return -1;
+    }
+    return 0;
 }
+
+// FIXME: pivot function returns a pivot index one fewer than the expected result, need to fix
+
+const pivot = (arr, comparator=compareNums, start=0, end=arr.length-1) => {
+
+    let pivotIdx = start; // 0
+
+    if (comparator !== compareNums) {
+        for (let j = 1; j < arr.length; j++) {
+            // if first value (pivot) is greater than second
+            if (comparator(arr[pivotIdx], arr[j]) > 0) {
+                pivotIdx++;
+                [arr[j], arr[pivotIdx]] = [arr[pivotIdx], arr[j]];
+            }
+        }
+    } else {
+        // var arr1 = [5, 4, 9, 10, 2, 20, 8, 7, 3];
+        for (let i = 1; i < arr.length; i++) {
+            if (compareNums(arr[pivotIdx], arr[i]) == 1) {
+                pivotIdx++;
+                [arr[i], arr[pivotIdx]] = [arr[pivotIdx], arr[i]];
+            }
+        }
+    }
+
+    return pivotIdx;
+
+}
+
+// const quickSort = (arr, comparator) => {
+//     // code here
+// }
