@@ -1,4 +1,7 @@
 /*
+Coding Exercise 48: merge helper
+Coding Exercise 49: Merge Sort
+
 Implement the merge sort algorithm. Given an array, this algorithm will sort the values in the array. The functions take 2 parameters: an array and 
 an optional comparator function.
 
@@ -14,59 +17,8 @@ Once you have smaller sorted arrays, merge those arrays with other sorted pairs 
 Once the array has been merged back together, return the merged (and sorted!) array
 */
 
-// provided test data and comparator functions
-
-var kitties = ["LilBub", "Garfield", "Heathcliff", "Blue", "Grumpy"];
- 
-var moarKittyData = [{
-  name: "LilBub",
-  age: 7
-}, {
-  name: "Garfield",
-  age: 40
-}, {
-  name: "Heathcliff",
-  age: 45
-}, {
-  name: "Blue",
-  age: 1
-}, {
-  name: "Grumpy",
-  age: 6
-}];
-
-var arr1 = [1,3,4,5];
-var arr2 = [2,4,6,8];
-
-var arr3 = [-2,-1,0,4,5,6];
-var arr4 = [-3,-2,-1,2,3,5,7,8];
-
-
-var arr5 = [3,4,5]
-var arr6 = [1,2]
-
-var names = ["Bob", "Ethel", "Christine"]
-var otherNames = ["M", "Colt", "Allison", "SuperLongNameOMG"]
-
-function strComp(a, b) {
-    if (a < b) { return -1;}
-    else if (a > b) { return 1;}
-    return 0;
-  }
-
-function oldestToYoungest(a, b) {
-    console.log('a = ' + a.age);
-    console.log('b = ' + b.age);
-    return b.age - a.age;
-}
- 
-function stringLengthComparator(str1, str2) {
-  return str1.length - str2.length;
-}
-
-
 // my merge sort algorithm
-
+// TODO: refactor merge and mergeSort functions, not clean or DRY
 const merge = (arr1, arr2, comparator) => {
     let merged = [];
     let pointer1 = 0;
@@ -123,22 +75,38 @@ const merge = (arr1, arr2, comparator) => {
     return merged;
 }
 
-// TODO: revise this function
+// default comparator for mergeSort
+const compareNums = (num1, num2) => {
+    if (num1 > num2) {
+        return 1
+    } else if (num1 < num2) {
+        return -1;
+    }
+    return 0;
+}
 
-// const mergeSort = (arr) => {
-//     console.log('arr from mergeSort call: ' + arr);
-//     if (arr.length < 2) {
-//         return arr;
-//     }
+const mergeSort = (arr, comparator = compareNums) => {
+    if (arr.length <= 1) {
+        return arr;
+    }
 
-//     let split = Math.floor(arr.length/2);
-//     let first = mergeSort(arr.slice(0,split));
-//     let second = mergeSort(arr.slice(split));
+    let split = Math.floor(arr.length/2);
 
-//     if (first && second) {
-//         if (first.length + second.length == arr.length) {
-//             return merge(first, second);
-//         }
-//     }
+    if (comparator !== compareNums) {
+        let first = mergeSort(arr.slice(0,split), comparator);
+        let second = mergeSort(arr.slice(split), comparator);
 
-// }
+        if (first && second) {
+            if (first.length + second.length == arr.length) {
+                return merge(first, second, comparator);
+            }
+        }
+    } else {
+
+        let first = mergeSort(arr.slice(0,split));
+        let second = mergeSort(arr.slice(split));
+
+        return merge(first, second);
+    }
+
+}
