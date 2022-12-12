@@ -17,6 +17,9 @@ Repeat until the array is sorted.Implement insertion sort. Your function should 
 
 */
 
+// TODO: implement algorithm with comparator parameter option
+
+// basic algorithm that only deasl with sorting arrays with numbers
 const insertionSort = (arr) => {
     for (let i = 1; i < arr.length; i++) {
         let currentVal = arr[i];
