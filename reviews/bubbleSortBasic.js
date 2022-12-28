@@ -7,17 +7,3 @@ If arr[j] is greater than arr[j+1] then swap these adjacent elements, else move 
 Print the sorted array
 
 */
-
-const bubbleSort = (arr) => {
-    for (let i = 0; i < arr.length-1; i++) {
-
-        for (let j = 0; j < arr.length-i-1; j++) {
-
-            if (arr[j] > arr[j+1]) {
-                [arr[j], arr[j+1]] = [arr[j+1], arr[j]];
-            }
-        }
-    }
-
-    return arr;
-}
